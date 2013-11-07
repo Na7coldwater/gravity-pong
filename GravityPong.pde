@@ -1,5 +1,5 @@
-Paddle playerPaddle = new Paddle(100,450);
-ArrayList<GameObject> objects = new ArrayList<GameObject>(30);
+Paddle playerPaddle = new Paddle(100,350);
+ArrayList<GameObject> objects = new ArrayList<GameObject>();
 //PFont font = loadFont("cour.ttf");
 int score = 0;
 int numberBalls = 0;
@@ -9,13 +9,26 @@ int gameTicks = 0;
 
 void setup()
 {
-  size(400,500);
+  println("This window here is where debugging data goes");
+  println("Feel free to ignore it, if you want");
+  size(600,400);
   context = createGraphics(width, height);
+  
+  noLoop();
+  // Comment this line if running in browser
+  //realSetup();
+}
+
+// Called by javascript if we're running in a browser,
+// directly if we're not
+void realSetup()
+{
   frameRate(35);
   background(0);
   addObject(new Ball(random((float)width),-5,random(5)-2.5,random(2)));
   gameTicks = 0;
   stroke(255);
+  loop();
 }
 
 void newBall(float x,float y,float vx,float vy)
