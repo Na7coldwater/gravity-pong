@@ -30,7 +30,7 @@ function fixThings(pjs)
     };
   }
   
-  pjs.realSetup();
+  pjs.realSetup(pjs);
 }
 
 // try to get the sketch instance from Processing.js

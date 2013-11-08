@@ -35,8 +35,8 @@ class Ball extends GameObject
           playerPaddle.pos.y
         );
       
-      if(collisionPoint.x>playerPaddle.pos.x &&
-         collisionPoint.x<playerPaddle.pos.x+playerPaddle.width)
+      if(collisionPoint.x>playerPaddle.pos.x && 
+         collisionPoint.x < playerPaddle.pos.x+playerPaddle.width)
       {
         scorePaddleHit();
         
@@ -46,6 +46,7 @@ class Ball extends GameObject
         vel.y = playerPaddle.bounce*abs(vel.y);
         // Clamp the bounce angle to a minimum
         // (prevent the ball from bouncing through the paddle)
+        // TODO: This doesn't work
         if(vel.y > 0)
         {
           // The maximum amount that the ball's heading can
@@ -101,13 +102,14 @@ class Ball extends GameObject
     }
     if(messages.size() > 0)
     {
-      spawnMessage(this, messages.toArray(new String[messages.size()]));
+      spawnRandomMessage(this, messages.toArray(new String[messages.size()]));
     }
   }
   void draw(PGraphics ctx)
   {
+    ctx.noStroke();
     ctx.fill(255);
-    ctx.ellipse(pos.x-5,pos.y-5,10,10);
+    ctx.ellipse(pos.x,pos.y,10,10);
     if(pos.y < -15)
     {
       ctx.stroke(255,0,255);
@@ -115,9 +117,15 @@ class Ball extends GameObject
       ctx.line(pos.x-5, 0, pos.x - 10, 5);
       ctx.line(pos.x-5, 0, pos.x, 5);
       ctx.noStroke();
+      ctx.fill(127,127,127);
       float size = max(10 + (pos.y / 50),0);
       ctx.ellipse(pos.x-5, 20, size, size);
     }
+    /*
+    // Debug draw
+    ctx.stroke(0,127,0);
+    ctx.line(pos.x, pos.y, pos.x+vel.x, pos.y+vel.y);
+    //*/
   }
   void onDestroyed()
   {

@@ -6,23 +6,26 @@ int numberBalls = 0;
 PGraphics context;
 boolean paused = false;
 int gameTicks = 0;
+boolean browser = false;
 
 void setup()
 {
   println("This window here is where debugging data goes");
   println("Feel free to ignore it, if you want");
   size(600,400);
+  
   context = createGraphics(width, height);
   
   noLoop();
-  // Comment this line if running in browser
-  //realSetup();
+  if(!browser)
+    realSetup(context);
 }
 
 // Called by javascript if we're running in a browser,
 // directly if we're not
-void realSetup()
+void realSetup(PGraphics ctx)
 {
+  context = ctx;
   frameRate(35);
   background(0);
   addObject(new Ball(random((float)width),-5,random(5)-2.5,random(2)));
@@ -37,7 +40,7 @@ void newBall(float x,float y,float vx,float vy)
   addObject(ball);
 }
 
-void spawnMessage(GameObject obj, String[] messages)
+void spawnRandomMessage(GameObject obj, String[] messages)
 {
   int rand = int(random(messages.length));
   spawnMessage(obj, messages[rand]);
@@ -64,7 +67,10 @@ void draw()
   playerPaddle.update();
   playerPaddle.draw(context);
   context.endDraw();
-  image(context, 0, 0);
+  if(!browser)
+  {
+    image(context, 0, 0);
+  }
   fill(255);
   //textFont(font, 12);
   text(""+score,5,15);
