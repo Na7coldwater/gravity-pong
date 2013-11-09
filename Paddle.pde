@@ -8,6 +8,8 @@ class Paddle extends GameObject
   float dying = 0;
   Paddle(float x,float y)
   {
+    // TODO: Change the paddle's coordinates
+    // to be centered in the middle of the sprite
     this.pos = new PVector(x, y);
     this.width = 200;
     this.halfWidth = this.width / 2;
@@ -15,22 +17,31 @@ class Paddle extends GameObject
   }
   void draw(PGraphics ctx)
   {
+    // Draw the paddle
     ctx.fill(255);
     ctx.noStroke();
     ctx.rect(pos.x,pos.y,width,height);
+    // Draw the no-deflect zone
     float offset = width - noDeflectWidth();
-    ctx.fill(127,255,127);
-    ctx.rect(pos.x+offset/2,pos.y,width-offset,height);
+    ctx.stroke(127);
+    float drawX = pos.x+offset/2;
+    ctx.line(drawX,pos.y,drawX,pos.y+height);
+    drawX = pos.x-offset/2+width;
+    ctx.line(drawX,pos.y,drawX,pos.y+height);
+    
+    //ctx.rect(pos.x+offset/2,pos.y,width-offset,height);
   }
   void update()
   {
-    width-=.07 + (gameTicks * gameTicks) / 50000000.0;
+    // Shrink the paddle over time
+    float shrinkAmount = gameTicks + 1000.0;
+    width-=.07 + (shrinkAmount * shrinkAmount) / 50000000.0;
     if(width <= 75 && width > 0)
     {
       width -= dying;
-      height += dying;
-      pos.y -= dying / 2;
-      dying += 0.1;
+      height += dying / 2;
+      pos.y -= dying / 4;
+      dying += 1;
     }
     width = min(max(width,0),300);
     halfWidth = width / 2;
