@@ -13,6 +13,7 @@ class Ball extends GameObject
   {
     this.pos = pos.get();
     this.vel = vel.get();
+    numberBalls += 1;
   }
   
   void update()

@@ -7,6 +7,8 @@ PGraphics context;
 boolean paused = false;
 int gameTicks = 0;
 boolean browser = false;
+int difficulty = 0;
+int difficultyTimer = 9000;
 
 void setup()
 {
@@ -75,6 +77,23 @@ void draw()
   //textFont(font, 12);
   text(""+score,5,15);
   gameTicks += 1;
+  adjustDifficulty();
+  //spawnMessage(playerPaddle,"Test!");
+}
+
+void adjustDifficulty()
+{
+  difficultyTimer += 1;
+  int nextTimer = 7000;
+  if(difficultyTimer >= nextTimer)
+  {
+    difficultyTimer -= nextTimer;
+    difficulty += 1;
+    Text text = new Text(width / 2, height / 2, "Level up!");
+    text.scale = 5;
+    text.lifeTimerMax = 150;
+    addObject(text);
+  }
 }
 
 void mouseClicked()

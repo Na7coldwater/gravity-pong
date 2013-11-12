@@ -34,8 +34,8 @@ class Paddle extends GameObject
   void update()
   {
     // Shrink the paddle over time
-    float shrinkAmount = gameTicks + 1000.0;
-    width-=.07 + (shrinkAmount * shrinkAmount) / 50000000.0;
+    float shrinkAmount = difficulty + 2;
+    width-=.07 + (shrinkAmount * shrinkAmount) / 500.0;
     if(width <= 75 && width > 0)
     {
       width -= dying;
