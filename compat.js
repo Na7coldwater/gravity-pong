@@ -30,6 +30,10 @@ function fixThings(pjs)
     };
   }
   
+  // Prevent the console window by popping up by
+  // overriding the println function
+  pjs.println = function(text){};
+  
   pjs.realSetup(pjs);
 }
 

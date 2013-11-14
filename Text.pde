@@ -25,10 +25,10 @@ class Text extends GameObject
   }
   void update()
   {
-    pos.y += vel.y;
-    vel.y*=.87;
+    pos.y += vel.y * accelLerp(1,0,lifeTimer / lifeTimerMax);
+    vel.y *= .87;
     lifeTimer++;
-    float t = (lifeTimer - lifeTimerMax + 45) / 45;
+    float t = clampStepLast(lifeTimer,lifeTimerMax,45);
     if(t > 0)
       alpha = lerp(255,0,t);
     

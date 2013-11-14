@@ -17,6 +17,8 @@ class Paddle extends GameObject
   }
   void draw(PGraphics ctx)
   {
+    if(destroyNextFrame)
+      return;
     // Draw the paddle
     ctx.fill(255);
     ctx.noStroke();
@@ -36,8 +38,14 @@ class Paddle extends GameObject
     // Shrink the paddle over time
     float shrinkAmount = difficulty + 2;
     width-=.07 + (shrinkAmount * shrinkAmount) / 500.0;
-    if(width <= 75 && width > 0)
+    if(width <= 75)
     {
+      if(width > 0)
+      {
+        width = 0;
+        this.destroy();
+        return;
+      }
       width -= dying;
       height += dying / 2;
       pos.y -= dying / 4;

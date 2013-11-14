@@ -1,3 +1,6 @@
+/* @pjs globalKeyEvents=true; 
+ */
+
 Paddle playerPaddle = new Paddle(100,350);
 ArrayList<GameObject> objects = new ArrayList<GameObject>();
 //PFont font = loadFont("cour.ttf");
@@ -8,12 +11,12 @@ boolean paused = false;
 int gameTicks = 0;
 boolean browser = false;
 int difficulty = 0;
-int difficultyTimer = 9000;
+int difficultyTimer = 0;
 
 void setup()
 {
-  println("This window here is where debugging data goes");
-  println("Feel free to ignore it, if you want");
+  //println("This window here is where debugging data goes");
+  //println("Feel free to ignore it, if you want");
   size(600,400);
   
   context = createGraphics(width, height);
@@ -75,6 +78,7 @@ void draw()
   }
   fill(255);
   //textFont(font, 12);
+  textAlign(LEFT);
   text(""+score,5,15);
   gameTicks += 1;
   adjustDifficulty();
@@ -83,8 +87,9 @@ void draw()
 
 void adjustDifficulty()
 {
+  text(""+difficultyTimer,5,28);
   difficultyTimer += 1;
-  int nextTimer = 7000;
+  int nextTimer = 1500;
   if(difficultyTimer >= nextTimer)
   {
     difficultyTimer -= nextTimer;
