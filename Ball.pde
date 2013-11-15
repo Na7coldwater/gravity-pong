@@ -128,5 +128,6 @@ class Ball extends GameObject
   void onDestroyed()
   {
     numberBalls -= 1;
+    lives -= 1;
   }
 }

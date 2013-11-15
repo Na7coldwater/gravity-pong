@@ -12,6 +12,9 @@ int gameTicks = 0;
 boolean browser = false;
 int difficulty = 0;
 int difficultyTimer = 0;
+int lives = 3;
+
+boolean gameOver = false;
 
 void setup()
 {
@@ -33,7 +36,7 @@ void realSetup(PGraphics ctx)
   context = ctx;
   frameRate(35);
   background(0);
-  addObject(new Ball(random((float)width),-5,random(5)-2.5,random(2)));
+  addBall();
   gameTicks = 0;
   stroke(255);
   loop();
@@ -43,6 +46,11 @@ void newBall(float x,float y,float vx,float vy)
 {
   Ball ball = new Ball(x,y,vx,vy);
   addObject(ball);
+}
+
+void addBall()
+{
+  newBall(random(1)*(float)width,-5,random(5)-2.5,random(2));
 }
 
 void spawnRandomMessage(GameObject obj, String[] messages)
@@ -71,24 +79,62 @@ void draw()
   updateArray(objects,context);
   playerPaddle.update();
   playerPaddle.draw(context);
+  if(!gameOver)
+  {
+    gameTicks += 1;
+    adjustDifficulty();
+    if(lives <= 0)
+    {
+      gameOver = true;
+    }
+    if(numberBalls <= 0 && lives > 0)
+    {
+      addBall();
+    }
+  }
+  drawLives(context);
+  
   context.endDraw();
   if(!browser)
   {
     image(context, 0, 0);
   }
+  
   fill(255);
   //textFont(font, 12);
   textAlign(LEFT);
   text(""+score,5,15);
-  gameTicks += 1;
-  adjustDifficulty();
+}
+
+void drawLives(PGraphics ctx)
+{
+  ctx.pushMatrix();
+  String livesText = "Lives: ";
+  ctx.translate(5,26);
+  ctx.textAlign(LEFT, CENTER);
+  ctx.text(livesText,0,0);
+  ctx.translate(ctx.textWidth(livesText)+3,2);
+  ctx.fill(255);
+  ctx.noStroke();
+  for(int i=0;i<lives;i++)
+  {
+    ctx.ellipse(0,0,8,8);
+    ctx.translate(15,0);
+  }
+  ctx.popMatrix();
+}
+
+void newGame()
+{
+  // TODO: New game logic
 }
 
 void adjustDifficulty()
 {
   difficultyTimer += 1;
   int nextTimer = 1500;
-  text("New ball in: " + (nextTimer-difficultyTimer),5,28);
+  context.textAlign(LEFT, CENTER);
+  context.text("New ball in: " + (nextTimer-difficultyTimer),5,42);
   if(difficultyTimer >= nextTimer)
   {
     difficultyTimer -= nextTimer;
@@ -97,7 +143,7 @@ void adjustDifficulty()
     text.scale = 5;
     text.lifeTimerMax = 150;
     addObject(text);
-    newBall(random((float)width),-5,random(5)-2.5,random(2));
+    addBall();
   }
 }
 
