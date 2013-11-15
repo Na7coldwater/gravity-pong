@@ -35,22 +35,6 @@ class Paddle extends GameObject
   }
   void update()
   {
-    // Shrink the paddle over time
-    float shrinkAmount = difficulty + 2;
-    width-=.07 + (shrinkAmount * shrinkAmount) / 500.0;
-    if(width <= 75)
-    {
-      if(width > 0)
-      {
-        width = 0;
-        this.destroy();
-        return;
-      }
-      width -= dying;
-      height += dying / 2;
-      pos.y -= dying / 4;
-      dying += 1;
-    }
     width = min(max(width,0),300);
     halfWidth = width / 2;
   }
@@ -96,8 +80,6 @@ class Paddle extends GameObject
   }
   void hit(GameObject other)
   {
-    width+=3.5;
-    //if(other instanceof Ball)
-    //width-=0.5*abs(((Ball)other).vy);
+    // TODO: Spawn a particle or something
   }
 }

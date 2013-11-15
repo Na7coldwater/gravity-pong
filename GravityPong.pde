@@ -82,14 +82,13 @@ void draw()
   text(""+score,5,15);
   gameTicks += 1;
   adjustDifficulty();
-  //spawnMessage(playerPaddle,"Test!");
 }
 
 void adjustDifficulty()
 {
-  text(""+difficultyTimer,5,28);
   difficultyTimer += 1;
   int nextTimer = 1500;
+  text("New ball in: " + (nextTimer-difficultyTimer),5,28);
   if(difficultyTimer >= nextTimer)
   {
     difficultyTimer -= nextTimer;
@@ -98,6 +97,7 @@ void adjustDifficulty()
     text.scale = 5;
     text.lifeTimerMax = 150;
     addObject(text);
+    newBall(random((float)width),-5,random(5)-2.5,random(2));
   }
 }
 

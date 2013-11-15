@@ -68,9 +68,6 @@ class Ball extends GameObject
         
         playerPaddle.hit(this);
         
-        if(random(abs(vel.y))>7)
-          newBall(pos.x,pos.y,vel.x+random(5)-2.5,min(vel.y+5,-2));
-        
         if(random(1)<.1)
           messages.add("Boing!");
       }
