@@ -103,7 +103,8 @@ void adjustDifficulty()
 
 void mouseClicked()
 {
-  redraw();
+  if(paused)
+    redraw();
 }
 
 void keyPressed()
