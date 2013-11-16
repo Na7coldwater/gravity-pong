@@ -6,15 +6,18 @@ ArrayList<GameObject> objects = new ArrayList<GameObject>();
 //PFont font = loadFont("cour.ttf");
 int score = 0;
 int numberBalls = 0;
-PGraphics context;
 boolean paused = false;
 int gameTicks = 0;
-boolean browser = false;
 int difficulty = 0;
 int difficultyTimer = 0;
+int nextDifficultyTimer = 1500;
 int lives = 3;
 
 boolean gameOver = false;
+
+PGraphics context;
+
+boolean browser = false;
 
 void setup()
 {
@@ -73,7 +76,7 @@ void draw()
 {
   background(0);
   context.beginDraw();
-  context.background(0);
+  context.background(0,0);
   context.noStroke();
   playerPaddle.pos.x = mouseX - playerPaddle.width/2;
   updateArray(objects,context);
@@ -92,7 +95,6 @@ void draw()
       addBall();
     }
   }
-  drawLives(context);
   
   context.endDraw();
   if(!browser)
@@ -102,8 +104,29 @@ void draw()
   
   fill(255);
   //textFont(font, 12);
-  textAlign(LEFT);
-  text(""+score,5,15);
+  context.beginDraw();
+  context.background(0,0);
+  
+  drawDifficulty(context);
+  drawLives(context);
+  drawScore(context);
+  
+  context.endDraw();
+  
+  noTint();
+  image(context,0,0);
+}
+
+void drawDifficulty(PGraphics ctx)
+{
+  ctx.textAlign(LEFT, CENTER);
+  ctx.text("New ball in: " + (nextDifficultyTimer-difficultyTimer),5,42);
+}
+
+void drawScore(PGraphics ctx)
+{
+  ctx.textAlign(LEFT);
+  ctx.text(""+score,5,15);
 }
 
 void drawLives(PGraphics ctx)
@@ -132,9 +155,7 @@ void newGame()
 void adjustDifficulty()
 {
   difficultyTimer += 1;
-  int nextTimer = 1500;
-  context.textAlign(LEFT, CENTER);
-  context.text("New ball in: " + (nextTimer-difficultyTimer),5,42);
+  int nextTimer = nextDifficultyTimer;
   if(difficultyTimer >= nextTimer)
   {
     difficultyTimer -= nextTimer;
