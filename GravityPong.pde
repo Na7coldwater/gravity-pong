@@ -72,16 +72,12 @@ void addObject(GameObject obj)
   objects.add(obj);
 }
 
-void draw()
+void update()
 {
-  background(0);
-  context.beginDraw();
-  context.background(0,0);
-  context.noStroke();
   playerPaddle.pos.x = mouseX - playerPaddle.width/2;
-  updateArray(objects,context);
+  updateArray(objects);
   playerPaddle.update();
-  playerPaddle.draw(context);
+  
   if(!gameOver)
   {
     gameTicks += 1;
@@ -95,7 +91,21 @@ void draw()
       addBall();
     }
   }
+}
+
+void draw()
+{
+  if(!paused)
+    update();
+  background(0);
+  context.beginDraw();
+  context.background(0,0);
+  context.noStroke();
   
+  drawArray(objects,context);
+  
+  playerPaddle.draw(context);
+
   context.endDraw();
   if(!browser)
   {
@@ -171,7 +181,18 @@ void adjustDifficulty()
 void mouseClicked()
 {
   if(paused)
+  {
+    update();
     redraw();
+  }
+}
+
+void mouseMoved()
+{
+  if(paused)
+  {
+    redraw();
+  }
 }
 
 void keyPressed()
@@ -183,7 +204,7 @@ void keyPressed()
     loop();
 }
 
-void updateArray(ArrayList<GameObject> a,PGraphics ctx)
+void updateArray(ArrayList<GameObject> a)
 {
   for(int i = 0;i < a.size(); i++)
   {
@@ -195,6 +216,14 @@ void updateArray(ArrayList<GameObject> a,PGraphics ctx)
       obj.onDestroyed();
       i--;
     }
+  }
+}
+
+void drawArray(ArrayList<GameObject> a,PGraphics ctx)
+{
+  for(int i = 0;i < a.size(); i++)
+  {
+    GameObject obj = a.get(i);
     obj.draw(ctx);
   }
 }
