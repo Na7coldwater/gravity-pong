@@ -36,8 +36,8 @@ class Ball extends GameObject
           playerPaddle.pos.y
         );
       
-      if(collisionPoint.x>playerPaddle.pos.x && 
-         collisionPoint.x < playerPaddle.pos.x+playerPaddle.width)
+      if(collisionPoint.x > playerPaddle.pos.x-playerPaddle.halfWidth && 
+         collisionPoint.x < playerPaddle.pos.x+playerPaddle.halfWidth)
       {
         scorePaddleHit();
         

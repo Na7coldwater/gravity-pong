@@ -8,8 +8,6 @@ class Paddle extends GameObject
   float dying = 0;
   Paddle(float x,float y)
   {
-    // TODO: Change the paddle's coordinates
-    // to be centered in the middle of the sprite
     this.pos = new PVector(x, y);
     this.width = 200;
     this.halfWidth = this.width / 2;
@@ -19,17 +17,23 @@ class Paddle extends GameObject
   {
     if(destroyNextFrame)
       return;
+    
+    float offsetX = pos.x - halfWidth;
+    float offsetY = pos.y;
+    
     // Draw the paddle
+    rectMode(CORNER);
     ctx.fill(255);
     ctx.noStroke();
-    ctx.rect(pos.x,pos.y,width,height);
+    ctx.rect(offsetX,offsetY,width,height);
+    
     // Draw the no-deflect zone
     float offset = width - noDeflectWidth();
     ctx.stroke(127);
-    float drawX = pos.x+offset/2;
-    ctx.line(drawX,pos.y,drawX,pos.y+height);
-    drawX = pos.x-offset/2+width;
-    ctx.line(drawX,pos.y,drawX,pos.y+height);
+    float drawX = offsetX+offset/2;
+    ctx.line(drawX,offsetY,drawX,offsetY+height);
+    drawX = offsetX-offset/2+width;
+    ctx.line(drawX,offsetY,drawX,offsetY+height);
     
     //ctx.rect(pos.x+offset/2,pos.y,width-offset,height);
   }
@@ -43,7 +47,7 @@ class Paddle extends GameObject
     println("Calculating deflect");
     // Distance from the center of the paddle
     println(collision.x, pos.x, halfWidth);
-    float offset = collision.x - pos.x - halfWidth;
+    float offset = collision.x - pos.x;
     float deflect;
     float sign = offset<0?-1:1;
     // Half the width of the no-deflect zone

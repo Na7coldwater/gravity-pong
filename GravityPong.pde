@@ -74,7 +74,7 @@ void addObject(GameObject obj)
 
 void update()
 {
-  playerPaddle.pos.x = mouseX - playerPaddle.width/2;
+  playerPaddle.pos.x = mouseX;
   updateArray(objects);
   playerPaddle.update();
   
