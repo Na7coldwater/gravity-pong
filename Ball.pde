@@ -21,7 +21,7 @@ class Ball extends GameObject
     ArrayList<String> messages = new ArrayList<String>(5);
     pos.add(vel);
     // Simulate gravity
-    vel.add(0, 0.2, 0);
+    vel.add(0, GRAVITY, 0);
     
     if(pos.y < playerPaddle.pos.y 
       && vel.y + pos.y >= playerPaddle.pos.y)
@@ -87,7 +87,7 @@ class Ball extends GameObject
       spawnMessage(this, "Oops!");
       return;
     }
-    if(pos.y<-15 && vel.y<.2 && vel.y>0)
+    if(pos.y<-15 && vel.y<GRAVITY && vel.y>0)
     {
       messages.add("Height: "+int(height+abs(pos.y)));
     }
@@ -119,6 +119,30 @@ class Ball extends GameObject
       float size = max(10 + (pos.y / 50),0);
       ctx.ellipse(pos.x-5, 20, size, size);
     }
+    
+    PVector last = pos;
+    for(int i = 0; i < 150; i++)
+    {
+      float displacement = vel.y*i + (GRAVITY * i * i)/2;
+      PVector next = pos.get();
+      next.add(vel.x*i,displacement,0);
+      ctx.stroke(125,67,201);
+      ctx.line(last.x,last.y,next.x,next.y);
+      last = next;
+    }
+    
+    PVector tempVel = vel.get();
+    last = pos;
+    for(int i = 0; i < 150; i++)
+    {
+      tempVel.add(0,GRAVITY,0);
+      PVector next = last.get();
+      next.add(tempVel);
+      ctx.stroke(5,67,201);
+      ctx.line(last.x,last.y,next.x,next.y);
+      last = next;
+    }
+    
     /*
     // Debug draw
     ctx.stroke(0,127,0);

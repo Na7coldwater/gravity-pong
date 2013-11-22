@@ -13,6 +13,8 @@ int difficultyTimer = 0;
 int nextDifficultyTimer = 1500;
 int lives = 3;
 
+static float GRAVITY = 0.1;
+
 boolean gameOver = false;
 
 PGraphics context;
