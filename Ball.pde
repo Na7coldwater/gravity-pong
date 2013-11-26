@@ -91,7 +91,7 @@ class Ball extends GameObject
     {
       messages.add("Height: "+int(height+abs(pos.y)));
     }
-    if(abs(vel.y)<=.1 && random(1)<.1)
+    if(abs(vel.y)<=GRAVITY && random(1)<.1)
     {
       messages.add("Whee!");
       messages.add("Whoa!");
@@ -121,7 +121,7 @@ class Ball extends GameObject
     }
     
     PVector last = pos;
-    for(int i = 0; i < 150; i++)
+    for(int i = 1; i < 151; i++)
     {
       float displacement = vel.y*i + (GRAVITY * i * i)/2;
       PVector next = pos.get();
@@ -130,6 +130,11 @@ class Ball extends GameObject
       ctx.line(last.x,last.y,next.x,next.y);
       last = next;
     }
+    
+    float time = quadratic(GRAVITY/2,vel.y,pos.y - playerPaddle.pos.y);
+    float displacement = vel.y*time + (GRAVITY * time * time)/2;
+    PVector hit = new PVector(time*vel.x + pos.x,playerPaddle.pos.y);
+    ctx.ellipse(hit.x,hit.y,5,5);
     
     PVector tempVel = vel.get();
     last = pos;

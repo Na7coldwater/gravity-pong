@@ -13,7 +13,7 @@ int difficultyTimer = 0;
 int nextDifficultyTimer = 1500;
 int lives = 3;
 
-static float GRAVITY = 0.1;
+static float GRAVITY = 0.2;
 
 boolean gameOver = false;
 
@@ -100,6 +100,8 @@ void draw()
   if(!paused)
     update();
   background(0);
+  //fill(0,5);
+  //rect(0,0,width,height);
   context.beginDraw();
   context.background(0,0);
   context.noStroke();
@@ -126,7 +128,10 @@ void draw()
   context.endDraw();
   
   noTint();
-  image(context,0,0);
+  if(!browser)
+  {
+    image(context,0,0);
+  }
 }
 
 void drawDifficulty(PGraphics ctx)
@@ -193,6 +198,7 @@ void mouseMoved()
 {
   if(paused)
   {
+    playerPaddle.pos.x = mouseX;
     redraw();
   }
 }
