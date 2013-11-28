@@ -19,12 +19,12 @@ boolean gameOver = false;
 
 PGraphics context;
 
+// Set this to true when running in a web browser
+// TODO: Find a way to detect this automatically
 boolean browser = false;
 
 void setup()
 {
-  //println("This window here is where debugging data goes");
-  //println("Feel free to ignore it, if you want");
   size(600,400);
   
   context = createGraphics(width, height);
@@ -32,6 +32,10 @@ void setup()
   noLoop();
   if(!browser)
     realSetup(context);
+  else
+  {
+    paused = true;
+  }
 }
 
 // Called by javascript if we're running in a browser,
@@ -43,6 +47,7 @@ void realSetup(PGraphics ctx)
   background(0);
   addBall();
   gameTicks = 0;
+  paused = false;
   stroke(255);
   loop();
 }
@@ -67,6 +72,7 @@ void spawnRandomMessage(GameObject obj, String[] messages)
 void spawnMessage(GameObject obj, String message)
 {
   addObject(new Text(obj.pos.x, obj.pos.y, message));
+  
 }
 
 void addObject(GameObject obj)
@@ -119,7 +125,10 @@ void draw()
   fill(255);
   //textFont(font, 12);
   context.beginDraw();
-  context.background(0,0);
+  if(!browser)
+  {
+    context.background(0,0);
+  }
   
   drawDifficulty(context);
   drawLives(context);
