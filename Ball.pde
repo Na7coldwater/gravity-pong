@@ -19,9 +19,11 @@ class Ball extends GameObject
   void update()
   {
     ArrayList<String> messages = new ArrayList<String>(5);
-    pos.add(vel);
+    
     // Simulate gravity
     vel.add(0, GRAVITY, 0);
+    
+    pos.add(vel);
     
     if(pos.y < playerPaddle.pos.y 
       && vel.y + pos.y >= playerPaddle.pos.y)
@@ -121,9 +123,9 @@ class Ball extends GameObject
     }
     
     PVector last = pos;
-    for(int i = 1; i < 151; i++)
+    for(int i = 0; i < 150; i++)
     {
-      float displacement = vel.y*i + (GRAVITY * i * i)/2;
+      float displacement = vel.y*(i) + (0.5*GRAVITY * (i) * (i)) + 0.5 * GRAVITY * i;
       PVector next = pos.get();
       next.add(vel.x*i,displacement,0);
       ctx.stroke(125,67,201);
@@ -131,28 +133,12 @@ class Ball extends GameObject
       last = next;
     }
     
-    float time = quadratic(GRAVITY/2,vel.y,pos.y - playerPaddle.pos.y);
-    float displacement = vel.y*time + (GRAVITY * time * time)/2;
-    PVector hit = new PVector(time*vel.x + pos.x,playerPaddle.pos.y);
-    ctx.ellipse(hit.x,hit.y,5,5);
-    
-    PVector tempVel = vel.get();
-    last = pos;
-    for(int i = 0; i < 150; i++)
     {
-      tempVel.add(0,GRAVITY,0);
-      PVector next = last.get();
-      next.add(tempVel);
-      ctx.stroke(5,67,201);
-      ctx.line(last.x,last.y,next.x,next.y);
-      last = next;
+      float time = quadratic(GRAVITY/2,vel.y+GRAVITY/2,pos.y - playerPaddle.pos.y);
+      float displacement = vel.y*time + (GRAVITY * time * time)/2;
+      PVector hit = new PVector(time*vel.x + pos.x,playerPaddle.pos.y);
+      ctx.ellipse(hit.x,hit.y,5,5);
     }
-    
-    /*
-    // Debug draw
-    ctx.stroke(0,127,0);
-    ctx.line(pos.x, pos.y, pos.x+vel.x, pos.y+vel.y);
-    //*/
   }
   void onDestroyed()
   {
